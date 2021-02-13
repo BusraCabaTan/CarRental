@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
@@ -12,19 +13,34 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
+            UserManager userManager = new UserManager(new EfUserDal());
 
-           var result = rentalManager.Add(new Rental()
+            var result = userManager.Add(new User() { 
+                Id = 4,
+                FirstName = "Melahat",
+                LastName = "Caba Tan",
+                Email = "melos@cabatanailese.com",
+                Password = "melos41"
+            });
+
+            Console.WriteLine(result.Message);
+
+
+
+            //IResult result = AddRental(rentalManager);
+            //Console.WriteLine(result.Message);
+            //CarDetails(carManager);
+        }
+
+        private static IResult AddRental(RentalManager rentalManager)
+        {
+            return rentalManager.Add(new Rental()
             {
                 Id = 3,
                 CarId = 1,
                 CustomerId = 3,
                 RentDate = DateTime.Now,
-            }); 
-
-
-            Console.WriteLine(result.Message);
-
-            //CarDetails(carManager);
+            });
         }
 
         private static void CarDetails(CarManager carManager)

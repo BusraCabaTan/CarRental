@@ -6,7 +6,9 @@ namespace Business.Constans
 {
     public static class Messages
     {
-        public static string RentalAded = "Araç Kiralandı";
+        public static string RentalAded = "Araç Kiralandı.";
         public static string RentalNotAded = "Araç Kiralanmaya Uygun Değildir.";
+        public static string UserAded = "Kullanıcı başarıyla eklendi.";
+        public static string UserNotAded = "Kullanıcı eklenemedi.";
     }
 }
