@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constans;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,7 +22,7 @@ namespace Business.Concrete
         }
 
 
-
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             if ((_rentalDal.GetAll(r=> r.CarId == rental.CarId) == null) || (_rentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate == null) == null))
@@ -31,7 +33,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.RentalNotAded);
         }
 
-        IResult IRentalService.Delete(Rental rental)
+        public IResult Delete(Rental rental)
         {
             var result = _rentalDal.Get(r => r.Id == rental.Id);
 
@@ -43,7 +45,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.RentalNotFound);
         }
 
-        IDataResult<List<Rental>> IRentalService.GetAll()
+        public IDataResult<List<Rental>> GetAll()
         {
             var result = _rentalDal.GetAll();
 
@@ -54,7 +56,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Rental>>(Messages.RentalNotFound);
         }
 
-        IDataResult<Rental> IRentalService.GetById(int id)
+        public IDataResult<Rental> GetById(int id)
         {
             var result = _rentalDal.Get(r => r.Id == id);
 
@@ -65,7 +67,8 @@ namespace Business.Concrete
             return new ErrorDataResult<Rental>(Messages.RentalNotFound);
         }
 
-        IResult IRentalService.Update(Rental rental)
+        [ValidationAspect(typeof(RentalValidator))]
+        public IResult Update(Rental rental)
         {
             var result = _rentalDal.Get(r => r.Id == rental.Id);
 
