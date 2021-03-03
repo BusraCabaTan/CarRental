@@ -3,9 +3,9 @@ using Business.Constans;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Business.Concrete
         
         }
 
-        IResult IUserService.Delete(User user)
+        public IResult Delete(User user)
         {
             var result = _userDal.Get(u => u.Id == user.Id);
             if (result != null)
@@ -43,7 +43,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.UserNotFound);
         }
 
-        IDataResult<List<User>> IUserService.GetAll()
+        public IDataResult<List<User>> GetAll()
         {
             var result = _userDal.GetAll();
 
@@ -54,7 +54,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<User>>(Messages.UserNotFound);
         }
 
-        IDataResult<User> IUserService.GetById(int id)
+        public IDataResult<User> GetById(int id)
         {
             var result = _userDal.Get(u => u.Id == id);
 
@@ -65,7 +65,25 @@ namespace Business.Concrete
             return new ErrorDataResult<User>(Messages.UserNotFound);
         }
 
-        IResult IUserService.Update(User user)
+        public IDataResult<User> GetByMail(string email)
+        {
+            var result = _userDal.Get(u => u.Email == email);
+
+            if (result != null)
+            {
+                return new SuccessDataResult<User>(Messages.UserListed, result);
+            }
+            return new ErrorDataResult<User>(Messages.UserNotFound);
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            var result = _userDal.GetClaims(user);
+
+            return new SuccessDataResult<List<OperationClaim>>(Messages.UserListed,result);
+        }
+
+        public IResult Update(User user)
         {
             var result = _userDal.Get(u => u.Id == user.Id);
             if (result != null)

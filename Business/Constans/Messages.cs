@@ -24,6 +24,8 @@ namespace Business.Constans
         public static string UsersListed = "Kullanıcılar Listelendi.";
         public static string UserListed = "Kullanıcı Listelendi.";
         public static string UserNotFound = "Kullancı Bulunamadı.";
+        public static string UserRegistered = "Kullanıcı kaydoldu.";
+        public static string UserExist = "Kullanıcı Mevcut";
 
         //Car Messages
         public static string CarAdded = "Araba Eklendi.";
@@ -33,6 +35,14 @@ namespace Business.Constans
         public static string CarNotFound = "Araba Bulunamadı.";
         public static string CarListed = "Araba Listelendi.";
         public static string CarsListed = "Arabalar Listelendi.";
+
+
+        //CarImage Messages
+        public static string CarImageAded = "Fotoğraf Eklendi";
+        public static string CarImagesLimited = "Fotoğraf Limiti Aşıldı";
+        public static string CarImagesListed = "Fotoğraflar listelendi";
+        public static string CarImageUpdated = "Fotoğraf güncellendi";
+        public static string CarImageDeleted = "Fotoğraf silindi";
 
         //Brand Messages
         public static string BrandAdded = "Marka Eklendi.";
@@ -58,5 +68,14 @@ namespace Business.Constans
         public static string CustomerNotFound = "Müşteri Bulunamadı.";
         public static string CustomersListed = "Müşteriler Listelendi.";
         public static string CustomerListed = "Müşteri Listelendi.";
+
+
+        //Authorization
+        public static string AuthorizationDenied = "Yetkiniz Yok.";
+        public static string AccessTokenCreated = "Token oluşturuldu";
+        public static string AccessTokenNotCreated = "Token oluşturulamadı";
+        public static string PasswordError = "Parola hatalı";
+        public static string SuccessfulLogin = "Giriş Başarlı";
+        
     }
 }
