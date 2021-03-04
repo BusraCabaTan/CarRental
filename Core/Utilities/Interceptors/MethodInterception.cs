@@ -7,10 +7,10 @@ namespace Core.Utilities.Interceptors
 {
     public class MethodInterception : MethodInterceptionBaseAttribute
     {
-        protected virtual void OnBefore(IInvocation ınovication) {  }
-        protected virtual void OnException(IInvocation ınovication, System.Exception e) { }
-        protected virtual void OnAfter(IInvocation ınovication) { }
-        protected virtual void OnSuccess(IInvocation ınovication) { }
+        protected virtual void OnBefore(IInvocation invocation) {  }
+        protected virtual void OnException(IInvocation invocation, System.Exception e) { }
+        protected virtual void OnAfter(IInvocation invocation) { }
+        protected virtual void OnSuccess(IInvocation invocation) { }
 
         public override void Intercept(IInvocation invocation)
         {

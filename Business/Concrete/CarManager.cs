@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -24,12 +25,15 @@ namespace Business.Concrete
 
 
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
                 _carDal.Add(car);
                 return new SuccessResult(Messages.CarAdded);   
         }
 
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             var result = _carDal.Get(c => c.Id == car.Id);
@@ -42,6 +46,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.CarNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             var result = _carDal.GetAll();
@@ -53,6 +58,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Car>>(Messages.CarNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetByBrand(int id)
         {
             var result = _carDal.GetAll(c => c.BrandId == id);
@@ -64,6 +70,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Car>>(Messages.CarNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetByColor(int id)
         {
             var result = _carDal.GetAll(c => c.ColorId == id);
@@ -75,6 +82,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Car>>(Messages.CarNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<Car> GetById(int id)
         {
             var result = _carDal.Get(c => c.Id == id);
@@ -86,6 +94,7 @@ namespace Business.Concrete
             return new ErrorDataResult<Car>(Messages.CarNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             var result = _carDal.GetCarDetails();
@@ -97,6 +106,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             var result = _carDal.Get(c => c.Id == car.Id);

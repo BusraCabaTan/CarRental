@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns;
 using Core.Entities.Concrete;
@@ -24,6 +25,7 @@ namespace Business.Concrete
         
 
         [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Add(User user)
         {
 
@@ -32,6 +34,8 @@ namespace Business.Concrete
         
         }
 
+        [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Delete(User user)
         {
             var result = _userDal.Get(u => u.Id == user.Id);
@@ -43,6 +47,7 @@ namespace Business.Concrete
             return new ErrorResult(Messages.UserNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             var result = _userDal.GetAll();
@@ -54,6 +59,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<User>>(Messages.UserNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<User> GetById(int id)
         {
             var result = _userDal.Get(u => u.Id == id);
@@ -65,6 +71,8 @@ namespace Business.Concrete
             return new ErrorDataResult<User>(Messages.UserNotFound);
         }
 
+
+        [CacheAspect]
         public IDataResult<User> GetByMail(string email)
         {
             var result = _userDal.Get(u => u.Email == email);
@@ -76,6 +84,7 @@ namespace Business.Concrete
             return new ErrorDataResult<User>(Messages.UserNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             var result = _userDal.GetClaims(user);
@@ -83,6 +92,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(Messages.UserListed,result);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
+        [CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             var result = _userDal.Get(u => u.Id == user.Id);

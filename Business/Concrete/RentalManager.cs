@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -28,6 +29,7 @@ namespace Business.Concrete
 
         [SecuredOperation("rental.add,admin")]
         [ValidationAspect(typeof(RentalValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Add(Rental rental)
         {
             IResult result = BusinessRules.Run(CarAvaiable(rental.CarId),CheckCarIsThere(rental.CarId));
@@ -40,6 +42,8 @@ namespace Business.Concrete
             return new ErrorResult(result.Message);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rental)
         {
             var result = BusinessRules.Run(CheckRentalIsThere(rental.Id));
@@ -52,6 +56,7 @@ namespace Business.Concrete
             return new ErrorResult(result.Message);
         }
 
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             var result = _rentalDal.GetAll();
@@ -63,6 +68,7 @@ namespace Business.Concrete
             return new ErrorDataResult<List<Rental>>(Messages.RentalNotFound);
         }
 
+        [CacheAspect]
         public IDataResult<Rental> GetById(int id)
         {
             var result = BusinessRules.Run(CheckRentalIsThere(id));
@@ -74,7 +80,9 @@ namespace Business.Concrete
             return new ErrorDataResult<Rental>(result.Message);
         }
 
+
         [ValidationAspect(typeof(RentalValidator))]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {
             var result = BusinessRules.Run(CheckRentalIsThere(rental.Id));
